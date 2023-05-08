@@ -7,13 +7,11 @@ app = Flask(__name__)
 dir = os.getcwd()
 print(dir)
 
-app.config["IMAGE_UPLOADS"] = str(dir)"/static/Images/inputs"
-app.config["IMAGE_DOWNLOADS"] = str(dir)"/static/Images/outputs"
+app.config["IMAGE_UPLOADS"] = str(dir)+r"\static\Images\inputs"
+app.config["IMAGE_DOWNLOADS"] = str(dir)+r"\static\Images\outputs"
 #app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG","JPG","JPEG"]
 
 from werkzeug.utils import secure_filename
-
-
 @app.route('/',methods = ["GET","POST"])
 def upload_image():
 	if request.method == "POST":
@@ -42,10 +40,9 @@ def upload_image():
 	return render_template('index.html')
 
 
-@app.route('/display/<filename>')
-def display_image(filename):
-	return redirect(url_for('static', filename='/Images/inputs/'+filename), code=301)
+# @app.route('/display/<filename>')
+# def display_image(filename):
+# 	return str(dir)+"/static/Images/inputs/"+filename
 
 
-if _name_ == '_main_':
-	app.run(debug=True,port=2000)
+app.run(debug=True,port=2000)
