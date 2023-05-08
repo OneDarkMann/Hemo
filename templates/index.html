@@ -13,7 +13,7 @@
     <div id="img"></div>
     <h1 align="center">Hemorrhage segmentation</h1>
       <div class="box">
-        <img class="mg" src="{{ url_for('static',filename='css/r1.jpg') }}">
+        <img class="mg" src="../static/css/r1.jpg">
 
       <form
           method="post" action="/" enctype="multipart/form-data" class="text-center">
@@ -24,13 +24,12 @@
 
       {% if filename %}
         <div style="text-align: center;">
-            <img src="{{ url_for('static', filename='/Images/inputs/'+filename) }} " width="400" height="400">
-                <img src="{{ url_for('static', filename='/Images/outputs/'+filename_out) }}" width="400" height="400">
+            <img src="../static/Images/inputs/{{filename}}" width="400" height="400">
+                <img src="../static/Images/outputs/{{filename_out}}" width="400" height="400">
         </div>
       {% endif %}
       </div>
-    <script src="main.py"></script>
-    <script src="./static/css/main.css"></script>
+
 
   </body>
 </html>
