@@ -47,4 +47,5 @@ def display_image(filename):
 	return redirect(url_for('static', filename='/Images/inputs/'+filename), code=301)
 
 
-app.run(debug=True,port=2000)
+if _name_ == '_main_':
+	app.run(debug=True,port=2000)
