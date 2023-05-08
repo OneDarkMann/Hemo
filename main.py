@@ -1,5 +1,4 @@
 import streamlit
-pip install flask
 import flask
 from flask import Flask,request,render_template,redirect
 import os
