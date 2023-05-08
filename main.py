@@ -1,5 +1,4 @@
-pip install streamlit
-pip install flask
+import streamlit
 from flask import Flask,request,render_template,redirect
 import os
 from model.model import pipline
