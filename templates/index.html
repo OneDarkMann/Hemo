@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Intracranial hemorrhage segmentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div id="img"></div>
+    <h1 align="center">Hemorrhage segmentation</h1>
+      <div class="box">
+        <img class="mg" src="{{ url_for('static',filename='css/r1.jpg') }}">
+
+      <form
+          method="post" action="/" enctype="multipart/form-data" class="text-center">
+          <label for="file">Upload CT image:</label>
+          <input type="file" class="form-control" id="file" name="file" accept="image/*" required />
+          <button type="submit" class="btn btn-primary mt-3">Submit</button>
+      </form>
+
+      {% if filename %}
+        <div style="text-align: center;">
+            <img src="{{ url_for('static', filename='/Images/inputs/'+filename) }} " width="400" height="400">
+                <img src="{{ url_for('static', filename='/Images/outputs/'+filename_out) }}" width="400" height="400">
+        </div>
+      {% endif %}
+      </div>
+
+
+  </body>
+</html>
