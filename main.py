@@ -4,9 +4,11 @@ from model.model import pipline
 
 app = Flask(__name__)
 
+dir = os.getcwd()
+print(dir)
 
-app.config["IMAGE_UPLOADS"] = "C:/Users/Ali Ashraf/Desktop/Hemo/static/Images/inputs"
-app.config["IMAGE_DOWNLOADS"] = "C:/Users/Ali Ashraf/Desktop/Hemo/static/Images/outputs"
+app.config["IMAGE_UPLOADS"] = str(dir)"/static/Images/inputs"
+app.config["IMAGE_DOWNLOADS"] = str(dir)"/static/Images/outputs"
 #app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG","JPG","JPEG"]
 
 from werkzeug.utils import secure_filename
