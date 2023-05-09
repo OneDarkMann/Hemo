@@ -1,4 +1,5 @@
 ﻿absl-py==1.4.0
+ wheel==0.40.0
 altair==4.2.2
 astunparse==1.6.3
 attrs==23.1.0
