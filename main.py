@@ -45,4 +45,4 @@ def upload_image():
 # 	return str(dir)+"/static/Images/inputs/"+filename
 
 
-app.run(debug=True,port=2000)
+app.run(debug=True)
