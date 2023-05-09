@@ -44,5 +44,5 @@ def upload_image():
 # def display_image(filename):
 # 	return str(dir)+"/static/Images/inputs/"+filename
 
-
-app.run(debug=True)
+if __name__ == '__main__':
+	app.run(debug=True)
