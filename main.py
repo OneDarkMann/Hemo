@@ -7,8 +7,8 @@ app = Flask(__name__)
 dir = os.getcwd()
 print(dir)
 
-app.config["IMAGE_UPLOADS"] = str(dir)+r"\static\Images\inputs"
-app.config["IMAGE_DOWNLOADS"] = str(dir)+r"\static\Images\outputs"
+app.config["IMAGE_UPLOADS"] = str(dir)+"/static/Images/inputs"
+app.config["IMAGE_DOWNLOADS"] = str(dir)+r"/static/Images/outputs"
 #app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG","JPG","JPEG"]
 
 from werkzeug.utils import secure_filename
