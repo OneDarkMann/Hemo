@@ -105,7 +105,7 @@ def deeplab_1(input_shape=(160, 160, 1)):
     # Define the model
     model = Model(inputs=inputs, outputs=outputs)
     
-    model.load_weights(r"C:\Users\Ali Ashraf\Desktop\Hemo\model\deeplab_model.h5")
+    model.load_weights("../model/deeplab_model.h5")
 
     return model
 
