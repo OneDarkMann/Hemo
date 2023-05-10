@@ -3,12 +3,12 @@ import os
 from model.model import pipline
 
 app = Flask(__name__)
-
+#home directory
 dir = os.getcwd()
 print(dir)
 
 app.config["IMAGE_UPLOADS"] = str(dir)+"/static/Images/inputs"
-app.config["IMAGE_DOWNLOADS"] = str(dir)+r"/static/Images/outputs"
+app.config["IMAGE_DOWNLOADS"] = str(dir)+"/static/Images/outputs"
 #app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG","JPG","JPEG"]
 
 from werkzeug.utils import secure_filename
@@ -36,13 +36,8 @@ def upload_image():
 		return render_template("index.html",filename=filename, filename_out = name_out)
 
 
-
 	return render_template('index.html')
 
-
-# @app.route('/display/<filename>')
-# def display_image(filename):
-# 	return str(dir)+"/static/Images/inputs/"+filename
 
 if __name__ == '__main__':
 	app.run(debug=True)
