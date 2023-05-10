@@ -15,63 +15,11 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Dropout, concatenate, Conv2DTranspose, BatchNormalization, Activation
 from skimage import exposure
 
+#Home directory
 dir = os.getcwd()
 print(dir)
 
-def unet(input_shape=(128, 128, 1)):
-    inputs = Input(shape=input_shape)
-    
-    # Encoder
-    conv1 = Conv2D(128, (3, 3), activation='relu', padding='same')(inputs)
-    conv1 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv1)
-    pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
-    
-    conv2 = Conv2D(128, (3, 3), activation='relu', padding='same')(pool1)
-    conv2 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv2)
-    pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
-    
-    conv3 = Conv2D(256, (3, 3), activation='relu', padding='same')(pool2)
-    conv3 = Conv2D(256, (3, 3), activation='relu', padding='same')(conv3)
-    pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
-    
-    conv4 = Conv2D(512, (3, 3), activation='relu', padding='same')(pool3)
-    conv4 = Conv2D(512, (3, 3), activation='relu', padding='same')(conv4)
-    drop4 = Dropout(0.5)(conv4)
-    pool4 = MaxPooling2D(pool_size=(2, 2))(drop4)
-    
-    # Bottom
-    conv5 = Conv2D(1024, (3, 3), activation='relu', padding='same')(pool4)
-    conv5 = Conv2D(1024, (3, 3), activation='relu', padding='same')(conv5)
-    drop5 = Dropout(0.5)(conv5)
-    
-    # Decoder
-    up6 = Conv2DTranspose(512, (2, 2), strides=(2, 2), padding='same')(drop5)
-    up6 = concatenate([up6, drop4])
-    conv6 = Conv2D(512, (3, 3), activation='relu', padding='same')(up6)
-    conv6 = Conv2D(512, (3, 3), activation='relu', padding='same')(conv6)
-    
-    up7 = Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(conv6)
-    up7 = concatenate([up7, conv3])
-    conv7 = Conv2D(256, (3, 3), activation='relu', padding='same')(up7)
-    conv7 = Conv2D(256, (3, 3), activation='relu', padding='same')(conv7)
-    
-    up8 = Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv7)
-    up8 = concatenate([up8, conv2])
-    conv8 = Conv2D(128, (3, 3), activation='relu', padding='same')(up8)
-    conv8 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv8)
-
-    up9 = Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv8)
-    up9 = concatenate([up9, conv1])
-    conv9 = Conv2D(128, (3, 3), activation='relu', padding='same')(up9)
-    conv9 = Conv2D(128, (3, 3), activation='relu', padding='same')(conv9)
-
-    conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
-    model = Model(inputs=[inputs], outputs=[conv10])
-
-    model.load_weights(r"C:\Users\aliof\OneDrive\Desktop\Hemo\model\my_model_weights.h5")
-    return model
-
-
+#model Architecture
 def deeplab_1(input_shape=(160, 160, 1)):
     inputs = Input(shape=input_shape)
 
@@ -111,6 +59,8 @@ def deeplab_1(input_shape=(160, 160, 1)):
 
     return model
 
+
+#function which proccess image to enter the model
 def img_reshape_to_model(img_path):
     import numpy as np
     from PIL import Image
@@ -124,18 +74,18 @@ def img_reshape_to_model(img_path):
     normalized = np.array(img_array) / 255
     img_array1 = normalized.reshape(1, 160, 160, 1)
     # Apply Histogram equalization
-
     X = exposure.equalize_hist(img_array1)
-
     # Apply Contrast stretching
     p2, p98 = np.percentile(X, (2, 98))
     X = exposure.rescale_intensity(X, in_range=(p2, p98))
     
     return X, h, w, name_out
 
+#function which mackes the prediction
 def prediction(img_array):
     #model = unet()
     model = deeplab_1()
+    #making prediction
     predict = model.predict(img_array)
     # Compute the mean of the array
     mean = np.mean(predict)
@@ -144,16 +94,16 @@ def prediction(img_array):
     thresholded_mask[ predict>= threshold] = 1
     return thresholded_mask
 
+#function which proccess image output of model
 def img_reshape_back_from_model(predict1,h , w, name_out):
     predict = predict1.reshape(160, 160)
     predict = cv2.resize(predict,(w, h))
     print(predict)
     img = Image.fromarray(np.uint32(predict*255))
     img = img.convert("L")
-    
     return img
 
-
+#function which runs pipline of prediction
 def pipline(img_path):
     img_array, h, w, name_out = img_reshape_to_model(img_path)
     predict1 = prediction(img_array)
